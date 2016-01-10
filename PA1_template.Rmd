@@ -8,17 +8,25 @@ keep_md: true
 
 echo TRUE
 
-## Loading and preprocessing the data
-1. Unzip and load data
-'''{r}
-    if (!file.exists("activity.csv")) {
-        unzip('activity.zip')
-    }
-    activityData <- read.csv("activity.csv"")
-'''
-
+##  Loading and preprocessing the data
+### 1. Unzip and load data
+```{r}
+if (!file.exists("activity.csv")) {
+    unzip('activity.zip')
+}
+activityData <- read.csv("activity.csv")
+```
+### 2. Convert date field to date class
+```{r}
+activityData$date <- as.Date(activityData$date, format = "%Y-%m-%d")
+```
+### 3. Convert 5 minute intervals to HH:MM format
+```{r}
+activityData$interval <- as.factor(activityData$interval)
+```
 
 ## What is mean total number of steps taken per day?
+
 
 
 
