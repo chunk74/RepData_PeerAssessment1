@@ -6,29 +6,45 @@ html_document:
 keep_md: true
 ---
 
-echo TRUE
-
 ##  Loading and preprocessing the data
 ### 1. Unzip and load data
-```{r}
+```{r echo TRUE}
 if (!file.exists("activity.csv")) {
     unzip('activity.zip')
 }
 activityData <- read.csv("activity.csv")
 ```
 ### 2. Convert date field to date class
-```{r}
+```{r echo TRUE}
 activityData$date <- as.Date(activityData$date, format = "%Y-%m-%d")
 ```
 ### 3. Convert 5 minute intervals to HH:MM format
-```{r}
-activityData$interval <- as.factor(activityData$interval)
+```{r echo TRUE}
+intAsChar <- as.character(activityData$interval)
+activityData$interval <- sprintf("%04d", activityData$interval)
+activityData$interval <- format(strptime(activityData$interval, format="%H%M"), format = "%H:%M")
 ```
 
 ## What is mean total number of steps taken per day?
-
-
-
+```{r echo TRUE}
+stepsPerDay <- aggregate(steps ~ date, activityData, sum)
+```
+### 1. Make a histogram of total number of steps taken per day
+```{r echo TRUE}
+library(ggplot2)
+ggplot(stepsPerDay, aes(x = steps)) +
+    geom_histogram(fill = "steelblue", binwidth = 1000) +
+    scale_y_discrete(breaks = 1:10) +
+    ggtitle("Histogram of Steps Taken per Day") +
+    xlab("Number of Steps per Day") +
+    ylab("Number of Days with X Steps") +
+    theme_gray()
+```
+### 2. Calculate mean and median of total number of steps taken per day
+```{r echo TRUE}
+meanStepsPerDay <- round(mean(stepsPerDay$steps), digits = 0)
+medianStepsPerDay <- round(median(stepsPerDay$steps), digits = 0)
+```
 
 ## What is the average daily activity pattern?
 
