@@ -21,10 +21,11 @@ activityData$date <- as.Date(activityData$date, format = "%Y-%m-%d")
 
 
 ## What is mean total number of steps taken per day?
+#### 1. Calculate mean number of steps taken per day
 ```{r Calculate mean number of steps per day, echo=TRUE}
 stepsPerDay <- aggregate(steps ~ date, activityData, sum)
 ```
-#### 1. Make a histogram of total number of steps taken per day
+#### 2. Make a histogram of total number of steps taken per day
 ```{r Build histogram of total number steps take per day, echo=TRUE}
 library(ggplot2)
 ggplot(stepsPerDay, aes(x = steps)) +
@@ -38,11 +39,13 @@ dev.copy(png, "figure/plot1.png", width = 640, height = 480)
 dev.off()
 ```
 ![plot1](figure/plot1.png)
-#### 2. Calculate mean and median of total number of steps taken per day
+#### 2. Calculate and report mean and median of total number of steps taken per day
 ```{r Calculate mean and media of total number of steps per day, echo=TRUE}
 cat("Mean steps per day = ", mean(stepsPerDay$steps))
 cat("Median steps per day = ", median(stepsPerDay$steps))
 ```
+Mean steps per day =  10766.19
+Median steps per day =  10765
 
 ## What is the average daily activity pattern?
 #### 1. Plot average number of steps taken per 5 minute interval across all days
@@ -63,7 +66,7 @@ dev.off()
 highInterval <- meanStepsPerInt[which.max(meanStepsPerInt$meanSteps),]
 cat("5 minute interval with highest average number of steps = ", highInterval$interval)
 ```
-
+5 minute interval with highest average number of steps =  835
 
 ## Imputing missing values
 #### 1. Calculate and report the total number of missing values in the dataset
@@ -71,6 +74,7 @@ cat("5 minute interval with highest average number of steps = ", highInterval$in
 missingValues <- sum(is.na(activityData$steps))
 cat("Total number of missing values = ", missingValues)
 ```
+Total number of missing values =  2304
 #### 2. Create new dataset with missing steps values imputed by mean of 5 minute intervals
 ```{r Create imputed dataset, echo=TRUE}
 imputedActivityData <- activityData 
@@ -94,14 +98,20 @@ dev.copy(png, "figure/plot3.png", width = 640, height = 480)
 dev.off()
 ```
 ![plot3](figure/plot3.png)
-#### 4. Calculate mean and median of imputed total number of steps taken per day
+#### 4. Calculate and report mean and median of imputed total number of steps taken per day
 ```{r Calculate mean and media of total number of steps per day, echo=TRUE}
 cat("Mean steps per day (imputed) = ", mean(totalStepsPerDay$steps))
 cat("Mean steps per day (with NA) = ", mean(stepsPerDay$steps))
 cat("Median steps per day (imputed) = ", median(totalStepsPerDay$steps))
 cat("Median steps per day (with NA) = ", median(stepsPerDay$steps))
 ```
+Mean steps per day (imputed) =  10766.19
+Mean steps per day (with NA) =  10766.19
+Median steps per day (imputed) =  10766.19
+Median steps per day (with NA) =  10765
 
+##### a) Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+These values haven't really changed much. The estimates done earlier in the assignment did not factor in the NAs reported in activityData$steps. Since the NAs were for entire days, this only factored into the count of days reported by the first histogram. The data is nearly the same because the NAs of the activityData are now filled with averages from the activityData$steps for the complete days - this is how we produced imputedActivityData. Therefore, all we have done is give more weight to the averages already defined in the first part of the assignment. That's why the middle band on this last "Histogram of Steps Taken per Day" has a bigger spike than the initial histogram (10 days versus 18 days).
 
 ## Are there differences in activity patterns between weekdays and weekends?
 #### 1. Create new factor for "weekend" and "weekday" and append to imputedActivityData
