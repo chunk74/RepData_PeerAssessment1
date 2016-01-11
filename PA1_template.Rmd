@@ -2,8 +2,8 @@
 title: 'Reproducible Research: Peer Assessment 1'
 author: "Cliff Hayes"
 keep_md: yes
-output: pdf_document
-html_document: null
+output: html_document
+html_document: PA1_template.html
 ---
 
 ##  Loading and preprocessing the data
@@ -32,9 +32,12 @@ ggplot(stepsPerDay, aes(x = steps)) +
     scale_y_discrete(breaks = 1:10) +
     ggtitle("Histogram of Steps Taken per Day") +
     xlab("Number of Steps per Day") +
-    ylab("Number of Days with X Steps") +
+    ylab("Count of Days") +
     theme_gray()
+dev.copy(png, "figure/plot1.png", width = 640, height = 480)
+dev.off()
 ```
+![plot1](figure/plot1.png)
 #### 2. Calculate mean and median of total number of steps taken per day
 ```{r Calculate mean and media of total number of steps per day, echo=TRUE}
 cat("Mean steps per day = ", mean(stepsPerDay$steps))
@@ -52,7 +55,10 @@ ggplot(meanStepsPerInt, aes(x = interval, y = meanSteps)) +
     xlab("5 Minute Intervals of 24 hour day") +
     ylab("Number of steps") +  
     theme_gray()
+dev.copy(png, "figure/plot2.png", width = 640, height = 480)
+dev.off()
 ```
+![plot2](figure/plot2.png)
 #### 2. Find 5 minute interval with highest average number of steps
 ```{r 5 Minute interval with highest average number of steps, echo=TRUE}
 highInterval <- meanStepsPerInt[which.max(meanStepsPerInt$meanSteps),]
@@ -83,9 +89,12 @@ ggplot(totalStepsPerDay, aes(x = steps)) +
     scale_y_discrete(breaks = 1:18) +
     ggtitle("Histogram of Steps Taken per Day") +
     xlab("Number of Steps per Day") +
-    ylab("Number of Days with X Steps") +
+    ylab("Count of Days") +
     theme_gray()
+dev.copy(png, "figure/plot3.png", width = 640, height = 480)
+dev.off()
 ```
+![plot3](figure/plot3.png)
 #### 4. Calculate mean and median of imputed total number of steps taken per day
 ```{r Calculate mean and media of total number of steps per day, echo=TRUE}
 cat("Mean steps per day (imputed) = ", mean(totalStepsPerDay$steps))
@@ -113,4 +122,7 @@ ggplot(aveSteps, aes(x=interval, y=meanSteps)) +
         xlab("Interval") +
         ylab("Number of steps") +
         theme_gray()
+dev.copy(png, "figure/plot4.png", width = 640, height = 480)
+dev.off()
 ```
+![plot4](figure/plot4.png)
