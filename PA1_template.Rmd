@@ -43,8 +43,7 @@ dev.off()
 cat("Mean steps per day = ", mean(stepsPerDay$steps))
 cat("Median steps per day = ", median(stepsPerDay$steps))
 ```
-cat("Mean steps per day = ", mean(stepsPerDay$steps))
-cat("Median steps per day = ", median(stepsPerDay$steps))
+
 ## What is the average daily activity pattern?
 #### 1. Plot average number of steps taken per 5 minute interval across all days
 ```{r Generate plot, echo=TRUE }
